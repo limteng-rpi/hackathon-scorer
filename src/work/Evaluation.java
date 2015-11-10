@@ -245,6 +245,10 @@ public class Evaluation {
         }
     }
 
+    public static void evaluate_loose(String[] args) {
+
+    }
+
     public static void main(String[] args) {
         /* for testing */
         // String[] testArgs = {"path_to_file_1", "path_to_file_2"};
