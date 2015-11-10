@@ -137,6 +137,7 @@ public class Mention {
     public boolean match(Mention men) {
         return men.getStartOffset()   == this.startOffset
                 && men.getEndOffset() == this.endOffset
+                && men.getDoc().equals(this.doc);
                 && men.getType().equals(this.type)
                 && men.getWiki().equals(this.wiki)
                 && men.getTranslation().equals(this.translation);
