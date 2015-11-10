@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Set;
 
 public class Evaluation {
+    private static boolean textMatchMode = false;
+
     private static List<String> brokenLines   = new ArrayList<String>();
     private static List<String> repeatedLines = new ArrayList<String>();
 
@@ -75,12 +77,16 @@ public class Evaluation {
                     mention.setTranslation(trans);
                     mention.setWiki(wiki);
                     mention.setType(type);
-                    mentionList1.add(mention);
+                    mention.setTextMatchMode(textMatchMode);
+                    if (!mentionList1.contains(mention)) {
+                        mentionList1.add(mention);
+                    }
                 } catch (Exception ex) {
                     brokenLines.add("file 1, line " + lineNum + ": " + line);
                 }
             }
             br1.close();
+            System.out.println("#1: " + mentionList1.size());
 
             /* read result */
             lineNum = 0;
@@ -119,12 +125,17 @@ public class Evaluation {
                     mention.setTranslation(trans);
                     mention.setWiki(wiki);
                     mention.setType(type);
-                    mentionList2.add(mention);
+                    mention.setTextMatchMode(textMatchMode);
+                    if (!mentionList2.contains(mention)) {
+                        mentionList2.add(mention);
+                    }
                 } catch (Exception ex) {
                     brokenLines.add("file 2, line " + lineNum + ": " + line);
                 }
             }
             br2.close();
+            System.out.println("#2: " + mentionList2.size());
+
 
             /* identification f-score */
             int menNum1 = mentionList1.size();
@@ -245,25 +256,38 @@ public class Evaluation {
         }
     }
 
-    public static void evaluate_loose(String[] args) {
+    public static void evaluateTextMatchMode(String[] args) {
 
     }
 
     public static void main(String[] args) {
         /* for testing */
-        // String[] testArgs = {"path_to_file_1", "path_to_file_2"};
+        // String[] testArgs = {"data/anno_1_gold_t.txt", "data/anno_2_t.txt", "-t"};
+        // String[] testArgs = {"data/anno_1_gold_t.txt", "data/anno_2_t.txt"};
         // args = testArgs;
 
         /* check arguments */
-        if (args.length != 2) {
+        if (args.length < 2) {
             System.out.println("ERROR: Invalid arguments\n" +
                     "USAGE: java -jar eval.jar [annotation_file_1] [annotation_fle_2]\n" +
                     "annotation_file_1: gold\nannotation_file_2: result");
             return;
-        }
+        } else if (args.length == 2) {
+            /* run scorer */
+            evaluate(args);
 
-        /* run scorer */
-        evaluate(args);
+        } else {
+            /* parameters */
+            for (int i = 2; i < args.length; i ++) {
+                if (args[i].equals("-t") || args[i].equals("--textMatch")) {
+                    textMatchMode = true;
+                }
+            }
+
+            /* run scorer */
+            String[] files = {args[0], args[1]};
+            evaluate(files);
+        }
 
         /* print broken lines */
         if (brokenLines.size() != 0) {

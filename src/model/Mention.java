@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Mention {
+    private boolean textMatchMode = false;
+
     private String text;
     private int startOffset, endOffset;
 
@@ -103,6 +105,14 @@ public class Mention {
         return wiki;
     }
 
+    public void setTextMatchMode(boolean textMatchMode) {
+        this.textMatchMode = textMatchMode;
+    }
+
+    public void textMatchMode() {
+        textMatchMode = true;
+    }
+
     /** ATTRIBUTES MAP */
     public boolean hasAttribute(String key) {
         return attributeMap.containsKey(key);
@@ -128,18 +138,35 @@ public class Mention {
 
     @Override
     public boolean equals(Object o) {
-        String doc      = ((Mention) o).getDoc();
-        int startOffset = ((Mention) o).getStartOffset();
-        int endOffset   = ((Mention) o).getEndOffset();
-        return startOffset == this.startOffset && endOffset == this.endOffset && doc.equals(this.doc);
+        if (o.getClass().equals(this.getClass())) {
+            String doc = ((Mention) o).getDoc();
+            if (textMatchMode) {
+                String text = ((Mention) o).text();
+                return text.equals(this.text) && doc.equals(this.doc);
+            } else {
+                int startOffset = ((Mention) o).getStartOffset();
+                int endOffset = ((Mention) o).getEndOffset();
+                return startOffset == this.startOffset && endOffset == this.endOffset && doc.equals(this.doc);
+            }
+        } else {
+            return false;
+        }
     }
 
     public boolean match(Mention men) {
-        return men.getStartOffset()   == this.startOffset
-                && men.getEndOffset() == this.endOffset
-                && men.getDoc().equals(this.doc)
-                && men.getType().equals(this.type)
-                && men.getWiki().equals(this.wiki)
-                && men.getTranslation().equals(this.translation);
+        if (textMatchMode) {
+            return men.text().equals(this.text)
+                    && men.getDoc().equals(this.doc)
+                    && men.getType().equals(this.type)
+                    && men.getWiki().equals(this.wiki)
+                    && men.getTranslation().equals(this.translation);
+        } else {
+            return men.getStartOffset() == this.startOffset
+                    && men.getEndOffset() == this.endOffset
+                    && men.getDoc().equals(this.doc)
+                    && men.getType().equals(this.type)
+                    && men.getWiki().equals(this.wiki)
+                    && men.getTranslation().equals(this.translation);
+        }
     }
 }
