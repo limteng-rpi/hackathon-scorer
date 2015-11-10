@@ -12,3 +12,6 @@ cd src
 javac work/Evaluation.java
 java work/Evaluation [file1] [file2]
 ```
+
+## Sample input files
+Sample input files are under 'data/' directory.
