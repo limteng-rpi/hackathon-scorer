@@ -1,0 +1,5 @@
+Kevin	ne_annotation_mention_0	Partido Popular	spanish_Kevin_20151109_132007:119-133	People's Party	https://en.wikipedia.org/wiki/People's_Party_%28Spain%29	ORG
+Kevin	ne_annotation_mention_1	PSOE	spanish_Kevin_20151109_132007:76-79	PSOE	https://en.wikipedia.org/wiki/Spanish_Socialist_Workers'_Party	GPE
+...
+Kevin	ne_annotation_mention_0	Partido Popular	spanish_Kevin_20151109_132006:119-133	People's Party	https://en.wikipedia.org/wiki/People's_Party_%28Spain%29	ORG
+Kevin	ne_annotation_mention_1	PSOE	spanish_Kevin_20151109_132006:76-79	PSOE (Spanish Socialist Workers' Party)	https://en.wikipedia.org/wiki/Spanish_Socialist_Workers'_Party	ORG
